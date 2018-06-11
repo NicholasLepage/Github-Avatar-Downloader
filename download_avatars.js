@@ -8,20 +8,24 @@ var repo = process.argv[3];
 console.log('Welcome to the GitHub Avatar Downloader!');
 
 function getRepoContributors(owner, repo, cb) {
-  var options = {
-    url: "https://api.github.com/repos/" + owner + "/" + repo + "/contributors",
-    headers: {
-      'User-Agent': 'request',
-      'Authorization': GITHUB_TOKEN.GITHUB_TOKEN,
-    }
-  };
+  if (owner === undefined || repo === undefined) {
+    console.log("Error: Please enter 2 valid parameters");
+  } else {
+    var options = {
+      url: "https://api.github.com/repos/" + owner + "/" + repo + "/contributors",
+      headers: {
+        'User-Agent': 'request',
+        'Authorization': GITHUB_TOKEN.GITHUB_TOKEN,
+      }
+    };
 
-  request(options, function(err, res, body) {
-    cb(err, body);
-  });
+    request(options, function(err, res, body) {
+      cb(err, body);
+    });
+  }
 }
 
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors(owner, repo, function(err, result) {
   var data = JSON.parse(result);
   console.log("Errors:", err);
   console.log("Currently downloading avatars");
