@@ -24,7 +24,7 @@ function getRepoContributors(owner, repo, cb) {
 getRepoContributors("jquery", "jquery", function(err, result) {
   var data = JSON.parse(result);
   console.log("Errors:", err);
-  console.log("Here are the URLs for each avatars: ");
+  console.log("Currently downloading avatars");
 
   for (var i = 0; i < data.length; i++) {
     downloadImageByUrl(data[i].avatar_url, "./avatars/" + data[i].login);
@@ -37,14 +37,11 @@ function downloadImageByUrl(url, filepath) {
          .on('error', function (err) {
            throw err;
          })
-         .on('response', function (response) {
-           console.log('Response Status Code: ', response.statusMessage);
-         })
+
          .on("end", function() {
           console.log("Download complete");
          })
 
          .pipe(fs.createWriteStream(filepath));
-         console.log("Currently downloading avatar");
 
 }
