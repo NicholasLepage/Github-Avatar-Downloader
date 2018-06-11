@@ -1,5 +1,6 @@
 var request = require("request");
 var GITHUB_TOKEN = require("./secret.js");
+var fs = require("fs");
 
 
 console.log('Welcome to the GitHub Avatar Downloader!');
@@ -24,8 +25,24 @@ getRepoContributors("jquery", "jquery", function(err, result) {
   console.log("Here are the URLs for each avatars: ");
 
   for (var i = 0; i < data.length; i++) {
-    console.log(data[i].avatar_url);
+    downloadImageByUrl(data[i].avatar_url, "./avatars/" + data[i].login);
   }
-
-
 });
+
+function downloadImageByUrl(url, filepath) {
+
+  request.get(url)
+         .on('error', function (err) {
+           throw err;
+         })
+         .on('response', function (response) {
+           console.log('Response Status Code: ', response.statusMessage);
+         })
+         .on("end", function() {
+          console.log("Download complete");
+         })
+
+         .pipe(fs.createWriteStream(filepath));
+         console.log("Currently downloading avatar");
+
+}

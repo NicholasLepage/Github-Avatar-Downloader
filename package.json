@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/NicholasLepage/Github-Avatar-Downloader#readme",
   "dependencies": {
+    "fs": "0.0.1-security",
     "request": "^2.87.0"
   }
 }
